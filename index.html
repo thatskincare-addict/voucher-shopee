@@ -11,6 +11,7 @@
             --bg-cream: #f8f5e6;
             --text-dark: #4a3f35;
             --text-light: #7a6f65;
+            --notice-bg: #fffbf0; 
         }
 
         body { 
@@ -81,7 +82,6 @@
             font-weight: bold; cursor: pointer; font-size: 16px;
         }
 
-        /* RESULTS AREA */
         .section-label { font-weight: 800; font-size: 12px; color: var(--accent); margin: 25px 0 10px 0; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
         .copy-all-btn {
             width: 100%; padding: 14px; background: var(--text-dark); color: white;
@@ -93,8 +93,6 @@
             background: var(--bg-cream); padding: 15px; border-radius: 15px; 
             margin-bottom: 12px; border: 2px solid #e8e4d5;
         }
-        .result-title { font-weight: 800; font-size: 12px; color: var(--accent); margin-bottom: 8px; text-transform: uppercase; }
-        .link-display { font-size: 11px; color: var(--text-light); word-break: break-all; margin-bottom: 10px; }
         .btn-row { display: flex; gap: 8px; }
         .btn-row a, .btn-row button { 
             flex: 1; padding: 10px; border-radius: 8px; border: none; 
@@ -103,23 +101,50 @@
         .btn-copy { background: #e8e4d5; color: var(--text-dark); }
         .btn-buy { background: var(--accent); color: white; }
 
-        /* HISTORY TOGGLE STYLING */
+        /* --- ARRANGEMENT STYLING --- */
+
+        /* 1. History Section */
         .history-toggle-btn {
             width: 100%; padding: 12px; background: transparent; color: var(--text-light);
-            border: 2px dashed #e8e4d5; border-radius: 12px; margin-top: 20px;
-            font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.3s;
+            border: 2px dashed #e8e4d5; border-radius: 12px; margin-top: 30px;
+            font-weight: bold; cursor: pointer; font-size: 11px;
         }
-        .history-toggle-btn:hover { background: #ffffff; color: var(--accent); border-color: var(--accent); }
-
-        .history-section { display: none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px; }
+        .history-section { display: none; margin-top: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
         .history-list { max-height: 250px; overflow-y: auto; }
         .clear-hist { color: #cc0000; cursor: pointer; font-size: 10px; text-decoration: underline; font-weight: normal; }
 
+        /* 2. Fan Group Button */
         .fan-group-btn {
-            display: block; text-align: center; margin-top: 20px;
+            display: block; text-align: center; margin: 25px 0;
             padding: 14px; background: var(--text-dark);
             color: white; text-decoration: none; border-radius: 12px;
             font-weight: bold; transition: 0.3s;
+        }
+
+        /* 3. Notice Board */
+        .notice-board {
+            background-color: var(--notice-bg);
+            border: 2px solid #e8e4d5;
+            border-radius: 20px;
+            padding: 20px;
+            position: relative;
+        }
+        .notice-board::before {
+            content: '📌';
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            font-size: 20px;
+        }
+        .notice-title {
+            color: var(--text-dark); font-weight: 800; font-size: 16px;
+            text-align: center; margin-bottom: 5px; text-transform: uppercase;
+        }
+        .notice-date {
+            color: var(--accent); font-size: 12px; font-weight: bold;
+            text-align: center; margin-bottom: 12px; display: block;
+        }
+        .notice-content {
+            color: var(--text-light); font-size: 14px; line-height: 1.6;
+            text-align: center; white-space: pre-line;
         }
     </style>
 </head>
@@ -133,7 +158,7 @@
 
     <div class="content">
         <h2>🛍️ Chuyển đổi link Shopee - nhận mã giảm giá</h2>
-        <p class="subtitle">Mã sẽ tự động hiện trong ví voucher khi mua qua link chuyển đổi ^0^</p>
+        <p class="subtitle"> Mã sẽ hiện trong mục áp voucher khi mua qua link chuyển đổi ^0^</p>
 
         <div id="inputs">
             <div class="input-row"><span class="input-num">1</span><input type="text" class="link-input" placeholder="Dán link Shopee 1..."></div>
@@ -149,13 +174,12 @@
         </div>
 
         <div id="results-section" style="display:none;">
-            <div class="section-label">Kết quả chuyển đổi</div>
+            <div class="section-label">Kết quả hiện tại</div>
             <button id="copyAllBtn" class="copy-all-btn" onclick="copyAll()">Sao chép tất cả link mới</button>
             <div id="results"></div>
         </div>
 
         <button class="history-toggle-btn" onclick="toggleHistory()">📜 Xem lịch sử chuyển đổi</button>
-        
         <div id="history-section" class="history-section">
             <div class="section-label">Lịch sử <span class="clear-hist" onclick="clearHistory()">Xóa sạch</span></div>
             <div id="history-list" class="history-list"></div>
@@ -164,6 +188,19 @@
         <a href="https://www.instagram.com/channel/AbZaUamGAW15JNEI/" target="_blank" class="fan-group-btn">
             💬 Tham gia nhóm báo sale, deal
         </a>
+
+        <div class="notice-board">
+            <div class="notice-title">📋 Bảng tin voucher</div>
+            <span class="notice-date">⏰ Áp dụng: 01.02.2026 - 08.02.2026</span>
+            <div class="notice-content">          
+👉🏻 Giảm 25%, tối đa 250K, cho đơn từ 150K
+👉🏻 Giảm 22%, tối đa 200K, cho đơn từ 150K
+👉🏻 Giảm 20%, tối đa 100K, cho đơn từ 100K
+👉🏻 Giảm 18%, tối đa 100K, cho đơn từ 50K
+
+❗️ Duy nhất 2.2: Giảm 30% max 300k đơn 50k
+            </div>
+        </div>
     </div>
 </div>
 
@@ -188,14 +225,13 @@
             if (val) {
                 const final = BASE + encodeURIComponent(val) + "&affiliate_id=" + AFF_ID;
                 currentLinks.push(final);
-                
                 const card = document.createElement('div');
                 card.className = 'result-card';
-                card.innerHTML = `<div class="result-title">Link #${counter}</div><div class="link-display">${final}</div>
+                card.innerHTML = `<div style="font-weight:800;font-size:12px;color:var(--accent);margin-bottom:8px;">Link #${counter}</div>
+                    <div style="font-size:11px;color:var(--text-light);word-break:break-all;margin-bottom:10px;">${final}</div>
                     <div class="btn-row"><a href="${final}" target="_blank" class="btn-buy">Mua ngay</a>
                     <button class="btn-copy" onclick="copyIt('${final}')">Sao chép</button></div>`;
                 display.appendChild(card);
-                
                 newItems.unshift({ url: final, time: new Date().toLocaleTimeString('vi-VN') });
                 counter++;
             }
@@ -209,23 +245,22 @@
     }
 
     function saveToHistory(items) {
-        let history = JSON.parse(localStorage.getItem('shopee_history') || "[]");
+        let history = JSON.parse(localStorage.getItem('sh_history') || "[]");
         history = [...items, ...history].slice(0, 15);
-        localStorage.setItem('shopee_history', JSON.stringify(history));
+        localStorage.setItem('sh_history', JSON.stringify(history));
         loadHistory();
     }
 
     function loadHistory() {
         const list = document.getElementById('history-list');
-        const history = JSON.parse(localStorage.getItem('shopee_history') || "[]");
+        const history = JSON.parse(localStorage.getItem('sh_history') || "[]");
         list.innerHTML = history.length ? "" : "<p style='font-size:11px; color:#999; text-align:center;'>Trống</p>";
-        
         history.forEach(item => {
             const card = document.createElement('div');
             card.className = 'result-card';
             card.style.opacity = "0.8";
             card.innerHTML = `<div style="font-size:10px; color:var(--accent); font-weight:bold; margin-bottom:5px;">Lúc ${item.time}</div>
-                <div class="link-display">${item.url}</div>
+                <div style="font-size:11px;color:var(--text-light);word-break:break-all;margin-bottom:10px;">${item.url}</div>
                 <button class="btn-copy" style="width:100%; padding:8px; border-radius:8px; font-size:11px; font-weight:bold;" onclick="copyIt('${item.url}')">Sao chép lại</button>`;
             list.appendChild(card);
         });
@@ -233,14 +268,7 @@
 
     function toggleHistory() {
         const section = document.getElementById('history-section');
-        const btn = document.querySelector('.history-toggle-btn');
-        if (section.style.display === "block") {
-            section.style.display = "none";
-            btn.innerText = "📜 Xem lịch sử chuyển đổi";
-        } else {
-            section.style.display = "block";
-            btn.innerText = "🙈 Ẩn lịch sử";
-        }
+        section.style.display = section.style.display === "block" ? "none" : "block";
     }
 
     function copyIt(text) { navigator.clipboard.writeText(text).then(() => alert("Đã sao chép!")); }
@@ -251,7 +279,7 @@
         document.getElementById('results-section').style.display = "none";
     }
     function clearHistory() {
-        if(confirm("Xóa toàn bộ lịch sử?")) { localStorage.removeItem('shopee_history'); loadHistory(); }
+        if(confirm("Xóa toàn bộ lịch sử?")) { localStorage.removeItem('sh_history'); loadHistory(); }
     }
 </script>
 

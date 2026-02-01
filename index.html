@@ -3,126 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chuyển đổi link Shopee</title>
+    <title>Công cụ chuyển đổi link Shopee</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f6f9; display: flex; justify-content: center; padding: 40px 15px; }
-        .container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 650px; }
-        h2 { color: #ee4d2d; text-align: center; margin-bottom: 5px; }
-        p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
-        
-        .input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-        .row-num { font-weight: bold; color: #ee4d2d; width: 20px; text-align: center; }
-        input { flex-grow: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
-        input:focus { border-color: #ee4d2d; outline: none; box-shadow: 0 0 0 2px rgba(238,77,45,0.1); }
+        /* --- SNORLAX THEME PALETTE --- */
+        :root {
+            --accent: #5c8b9f; 
+            --bg-cream: #f8f5e6;
+            --text-dark: #4a3f35;
+            --text-light: #7a6f65;
+        }
 
-        .actions { margin: 25px 0; display: flex; gap: 10px; }
-        button { flex: 1; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 15px; }
-        .primary-btn { background-color: #ee4d2d; color: white; }
-        .primary-btn:hover { background-color: #d73211; }
-        .secondary-btn { background-color: #333; color: white; display: none; }
-        .clear-btn { background-color: #f1f1f1; color: #666; flex: 0.4; }
-        .clear-btn:hover { background-color: #e4e4e4; }
+        body { 
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            margin: 0; padding: 60px 15px;
+            min-height: 100vh;
+        }
+
+        .container { 
+            background: #ffffff; 
+            padding: 0 0 30px 0;
+            border-radius: 30px; 
+            box-shadow: 0 10px 30px rgba(92, 139, 159, 0.15);
+            width: 100%; max-width: 500px; margin: auto;
+            overflow: hidden; position: relative;
+            border: 2px solid #e8e4d5;
+        }
+
+        .banner {
+            width: 100%; height: 160px;
+            background: var(--accent);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .logo-wrapper {
+            width: 90px; height: 90px;
+            background: white;
+            border-radius: 50%;
+            margin: -45px auto 15px auto;
+            position: relative;
+            padding: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 2px solid var(--bg-cream);
+        }
+
+        .logo-wrapper img {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .content { padding: 0 30px; }
+        h2 { color: var(--text-dark); text-align: center; margin: 0; font-weight: 800; font-size: 20px; line-height: 1.3; }
+        .subtitle { text-align: center; color: var(--text-light); font-size: 13px; margin: 10px 0 20px 0; }
+
+        .input-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .input-num { font-weight: 800; color: var(--accent); font-size: 16px; width: 20px; text-align: right; }
         
-        .results-container { margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; display: none; }
-        .result-item { background: #fff8f6; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ffebe7; }
-        .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .result-label { font-size: 12px; font-weight: bold; color: #ee4d2d; }
-        .result-text { font-family: monospace; font-size: 11px; color: #444; word-break: break-all; display: block; line-height: 1.4; background: white; padding: 8px; border-radius: 4px; border: 1px solid #eee; }
-        .copy-small { background: #ee4d2d; color: white; padding: 4px 10px; font-size: 11px; border-radius: 4px; cursor: pointer; border: none; }
-        .copy-small:hover { background: #d73211; }
+        input { 
+            flex: 1; padding: 14px; 
+            border: 2px solid #e8e4d5; border-radius: 12px; box-sizing: border-box;
+            transition: 0.3s; background: var(--bg-cream); color: var(--text-dark);
+        }
+        input:focus { border-color: var(--accent); outline: none; background: white; }
+
+        .btn-group-main { display: flex; gap: 10px; margin-top: 10px; }
+        
+        .primary-btn { 
+            flex: 2; padding: 16px; background: var(--accent); 
+            color: white; border: none; border-radius: 12px; font-weight: bold; 
+            cursor: pointer; font-size: 16px; transition: 0.2s;
+        }
+        .clear-btn {
+            flex: 1; padding: 16px; background: #e8e4d5;
+            color: var(--text-dark); border: none; border-radius: 12px;
+            font-weight: bold; cursor: pointer; font-size: 16px;
+        }
+
+        /* RESULTS AREA */
+        .section-label { font-weight: 800; font-size: 12px; color: var(--accent); margin: 25px 0 10px 0; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+        .copy-all-btn {
+            width: 100%; padding: 14px; background: var(--text-dark); color: white;
+            border: none; border-radius: 12px; margin-bottom: 15px;
+            font-weight: bold; cursor: pointer; display: none; font-size: 14px;
+        }
+
+        .result-card { 
+            background: var(--bg-cream); padding: 15px; border-radius: 15px; 
+            margin-bottom: 12px; border: 2px solid #e8e4d5;
+        }
+        .result-title { font-weight: 800; font-size: 12px; color: var(--accent); margin-bottom: 8px; text-transform: uppercase; }
+        .link-display { font-size: 11px; color: var(--text-light); word-break: break-all; margin-bottom: 10px; }
+        .btn-row { display: flex; gap: 8px; }
+        .btn-row a, .btn-row button { 
+            flex: 1; padding: 10px; border-radius: 8px; border: none; 
+            font-size: 12px; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none;
+        }
+        .btn-copy { background: #e8e4d5; color: var(--text-dark); }
+        .btn-buy { background: var(--accent); color: white; }
+
+        /* HISTORY TOGGLE STYLING */
+        .history-toggle-btn {
+            width: 100%; padding: 12px; background: transparent; color: var(--text-light);
+            border: 2px dashed #e8e4d5; border-radius: 12px; margin-top: 20px;
+            font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.3s;
+        }
+        .history-toggle-btn:hover { background: #ffffff; color: var(--accent); border-color: var(--accent); }
+
+        .history-section { display: none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px; }
+        .history-list { max-height: 250px; overflow-y: auto; }
+        .clear-hist { color: #cc0000; cursor: pointer; font-size: 10px; text-decoration: underline; font-weight: normal; }
+
+        .fan-group-btn {
+            display: block; text-align: center; margin-top: 20px;
+            padding: 14px; background: var(--text-dark);
+            color: white; text-decoration: none; border-radius: 12px;
+            font-weight: bold; transition: 0.3s;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Chuyển đổi link Shopee - nhận mã giảm giá</h2>
-    <p class="subtitle">Mã sẽ tự động hiện trong ví voucher khi mua qua link chuyển đổi</p>
-
-    <div id="inputContainer">
-        <div class="input-row"><span class="row-num">1</span><input type="text" class="link-input" placeholder="https://shopee.vn/..."></div>
-        <div class="input-row"><span class="row-num">2</span><input type="text" class="link-input" placeholder="https://shopee.vn/..."></div>
-        <div class="input-row"><span class="row-num">3</span><input type="text" class="link-input" placeholder="https://shopee.vn/..."></div>
-        <div class="input-row"><span class="row-num">4</span><input type="text" class="link-input" placeholder="https://shopee.vn/..."></div>
-        <div class="input-row"><span class="row-num">5</span><input type="text" class="link-input" placeholder="https://shopee.vn/..."></div>
+    <div class="banner"></div>
+    <div class="logo-wrapper">
+        <img src="https://i.pinimg.com/736x/06/3c/fa/063cfa3125f4cb7a29fda76242998113.jpg" alt="Logo">
     </div>
 
-    <div class="actions">
-        <button class="clear-btn" onclick="clearAll()">Xoá</button>
-        <button class="primary-btn" onclick="generateLinks()">Chuyển đổi</button>
-    </div>
+    <div class="content">
+        <h2>🛍️ Chuyển đổi link Shopee - nhận mã giảm giá</h2>
+        <p class="subtitle">Mã sẽ tự động hiện trong ví voucher khi mua qua link chuyển đổi ^0^</p>
 
-    <button id="copyAllBtn" class="secondary-btn" style="width: 100%; margin-bottom: 20px;" onclick="copyAll()">Sao chép tất cả</button>
-
-    <div id="resultsArea" class="results-container">
+        <div id="inputs">
+            <div class="input-row"><span class="input-num">1</span><input type="text" class="link-input" placeholder="Dán link Shopee 1..."></div>
+            <div class="input-row"><span class="input-num">2</span><input type="text" class="link-input" placeholder="Dán link Shopee 2..."></div>
+            <div class="input-row"><span class="input-num">3</span><input type="text" class="link-input" placeholder="Dán link Shopee 3..."></div>
+            <div class="input-row"><span class="input-num">4</span><input type="text" class="link-input" placeholder="Dán link Shopee 4..."></div>
+            <div class="input-row"><span class="input-num">5</span><input type="text" class="link-input" placeholder="Dán link Shopee 5..."></div>
         </div>
+
+        <div class="btn-group-main">
+            <button class="clear-btn" onclick="clearAll()">Xóa hết</button>
+            <button class="primary-btn" onclick="generate()">Chuyển đổi</button>
+        </div>
+
+        <div id="results-section" style="display:none;">
+            <div class="section-label">Kết quả chuyển đổi</div>
+            <button id="copyAllBtn" class="copy-all-btn" onclick="copyAll()">Sao chép tất cả link mới</button>
+            <div id="results"></div>
+        </div>
+
+        <button class="history-toggle-btn" onclick="toggleHistory()">📜 Xem lịch sử chuyển đổi</button>
+        
+        <div id="history-section" class="history-section">
+            <div class="section-label">Lịch sử <span class="clear-hist" onclick="clearHistory()">Xóa sạch</span></div>
+            <div id="history-list" class="history-list"></div>
+        </div>
+
+        <a href="https://www.instagram.com/channel/AbZaUamGAW15JNEI/" target="_blank" class="fan-group-btn">
+            💬 Tham gia nhóm báo sale, deal
+        </a>
+    </div>
 </div>
 
 <script>
-    const MY_AFFILIATE_ID = "17352430059";
-    const BASE_URL = "https://s.shopee.vn/an_redir?origin_link=";
-    let currentResults = [];
+    const AFF_ID = "17352430059";
+    const BASE = "https://s.shopee.vn/an_redir?origin_link=";
+    let currentLinks = [];
 
-    function generateLinks() {
+    window.onload = loadHistory;
+
+    function generate() {
         const inputs = document.querySelectorAll('.link-input');
-        const resultsArea = document.getElementById('resultsArea');
-        const copyAllBtn = document.getElementById('copyAllBtn');
+        const display = document.getElementById('results');
+        const resultsSection = document.getElementById('results-section');
+        display.innerHTML = "";
+        currentLinks = [];
+        let newItems = [];
         
-        resultsArea.innerHTML = "";
-        currentResults = [];
-        let hasLinks = false;
-
-        inputs.forEach((input, index) => {
-            const url = input.value.trim();
-            if (url) {
-                hasLinks = true;
-                const encodedUrl = encodeURIComponent(url);
-                const finalUrl = `${BASE_URL}${encodedUrl}&affiliate_id=${MY_AFFILIATE_ID}`;
+        let counter = 1;
+        inputs.forEach((input) => {
+            const val = input.value.trim();
+            if (val) {
+                const final = BASE + encodeURIComponent(val) + "&affiliate_id=" + AFF_ID;
+                currentLinks.push(final);
                 
-                currentResults.push(finalUrl);
-                addResultRow(finalUrl, index + 1);
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.innerHTML = `<div class="result-title">Link #${counter}</div><div class="link-display">${final}</div>
+                    <div class="btn-row"><a href="${final}" target="_blank" class="btn-buy">Mua ngay</a>
+                    <button class="btn-copy" onclick="copyIt('${final}')">Sao chép</button></div>`;
+                display.appendChild(card);
+                
+                newItems.unshift({ url: final, time: new Date().toLocaleTimeString('vi-VN') });
+                counter++;
             }
         });
 
-        if (hasLinks) {
-            resultsArea.style.display = "block";
-            copyAllBtn.style.display = "block";
-        } else {
-            alert("Bạn hãy nhập ít nhất 1 link!");
+        if (currentLinks.length > 0) {
+            resultsSection.style.display = "block";
+            document.getElementById('copyAllBtn').style.display = "block";
+            saveToHistory(newItems);
         }
     }
 
-    function addResultRow(link, num) {
-        const resultsArea = document.getElementById('resultsArea');
-        const row = document.createElement('div');
-        row.className = 'result-item';
-        row.innerHTML = `
-            <div class="result-header">
-                <span class="result-label">LINK ${num}</span>
-                <button class="copy-small" onclick="copySingle('${link}')">Sao chép</button>
-            </div>
-            <span class="result-text">${link}</span>
-        `;
-        resultsArea.appendChild(row);
+    function saveToHistory(items) {
+        let history = JSON.parse(localStorage.getItem('shopee_history') || "[]");
+        history = [...items, ...history].slice(0, 15);
+        localStorage.setItem('shopee_history', JSON.stringify(history));
+        loadHistory();
     }
 
-    function copySingle(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            alert("Link đã sao chép :D");
+    function loadHistory() {
+        const list = document.getElementById('history-list');
+        const history = JSON.parse(localStorage.getItem('shopee_history') || "[]");
+        list.innerHTML = history.length ? "" : "<p style='font-size:11px; color:#999; text-align:center;'>Trống</p>";
+        
+        history.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'result-card';
+            card.style.opacity = "0.8";
+            card.innerHTML = `<div style="font-size:10px; color:var(--accent); font-weight:bold; margin-bottom:5px;">Lúc ${item.time}</div>
+                <div class="link-display">${item.url}</div>
+                <button class="btn-copy" style="width:100%; padding:8px; border-radius:8px; font-size:11px; font-weight:bold;" onclick="copyIt('${item.url}')">Sao chép lại</button>`;
+            list.appendChild(card);
         });
     }
 
-    function copyAll() {
-        const allText = currentResults.join('\n');
-        navigator.clipboard.writeText(allText).then(() => {
-            alert("Tất cả link đã sao chép :D");
-        });
+    function toggleHistory() {
+        const section = document.getElementById('history-section');
+        const btn = document.querySelector('.history-toggle-btn');
+        if (section.style.display === "block") {
+            section.style.display = "none";
+            btn.innerText = "📜 Xem lịch sử chuyển đổi";
+        } else {
+            section.style.display = "block";
+            btn.innerText = "🙈 Ẩn lịch sử";
+        }
     }
 
-    function clearAll() {
-        document.querySelectorAll('.link-input').forEach(input => input.value = "");
-        document.getElementById('resultsArea').style.display = "none";
-        document.getElementById('copyAllBtn').style.display = "none";
-        currentResults = [];
+    function copyIt(text) { navigator.clipboard.writeText(text).then(() => alert("Đã sao chép!")); }
+    function copyAll() { navigator.clipboard.writeText(currentLinks.join('\n')).then(() => alert("Đã sao chép tất cả!")); }
+    function clearAll() { 
+        document.querySelectorAll('.link-input').forEach(i => i.value = "");
+        document.getElementById('results').innerHTML = "";
+        document.getElementById('results-section').style.display = "none";
+    }
+    function clearHistory() {
+        if(confirm("Xóa toàn bộ lịch sử?")) { localStorage.removeItem('shopee_history'); loadHistory(); }
     }
 </script>
 

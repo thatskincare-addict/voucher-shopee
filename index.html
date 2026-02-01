@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Shopee Link Creator</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f6f9; display: flex; justify-content: center; padding: 40px 15px; }
+        .container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 650px; }
+        h2 { color: #ee4d2d; text-align: center; margin-bottom: 5px; }
+        p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
+        
+        .input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .row-num { font-weight: bold; color: #ee4d2d; width: 20px; text-align: center; }
+        input { flex-grow: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        input:focus { border-color: #ee4d2d; outline: none; box-shadow: 0 0 0 2px rgba(238,77,45,0.1); }
+
+        .actions { margin: 25px 0; display: flex; gap: 10px; }
+        button { flex: 1; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 15px; }
+        .primary-btn { background-color: #ee4d2d; color: white; }
+        .primary-btn:hover { background-color: #d73211; }
+        .secondary-btn { background-color: #333; color: white; display: none; }
+        .clear-btn { background-color: #f1f1f1; color: #666; flex: 0.4; }
+        .clear-btn:hover { background-color: #e4e4e4; }
+        
+        .results-container { margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; display: none; }
+        .result-item { background: #fff8f6; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ffebe7; }
+        .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .result-label { font-size: 12px; font-weight: bold; color: #ee4d2d; }
+        .result-text { font-family: monospace; font-size: 11px; color: #444; word-break: break-all; display: block; line-height: 1.4; background: white; padding: 8px; border-radius: 4px; border: 1px solid #eee; }
+        .copy-small { background: #ee4d2d; color: white; padding: 4px 10px; font-size: 11px; border-radius: 4px; cursor: pointer; border: none; }
+        .copy-small:hover { background: #d73211; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Chuyển đổi link Shopee - nhận mã giảm giá</h2>
+    <p class="subtitle">Mã sẽ tự động hiện trong ví voucher khi mua qua link chuyển đổi</p>
+
+    <div id="inputContainer">
+        <div class="input-row"><span class="row-num">1</span><input type="text" class="link-input" placeholder="https://shopee.vn/..."></div>
+        <div class="input-row"><span class="row-num">2</span><input type="text" class="link-input" placeholder="https://shopee.vn/..."></div>
+        <div class="input-row"><span class="row-num">3</span><input type="text" class="link-input" placeholder="https://shopee.vn/..."></div>
+        <div class="input-row"><span class="row-num">4</span><input type="text" class="link-input" placeholder="Phttps://shopee.vn/..."></div>
+        <div class="input-row"><span class="row-num">5</span><input type="text" class="link-input" placeholder="https://shopee.vn/..."></div>
+    </div>
+
+    <div class="actions">
+        <button class="clear-btn" onclick="clearAll()">Xoá</button>
+        <button class="primary-btn" onclick="generateLinks()">Chuyển đổi</button>
+    </div>
+
+    <button id="copyAllBtn" class="secondary-btn" style="width: 100%; margin-bottom: 20px;" onclick="copyAll()">Sao chép tất cả</button>
+
+    <div id="resultsArea" class="results-container">
+        </div>
+</div>
+
+<script>
+    const MY_AFFILIATE_ID = "17352430059";
+    const BASE_URL = "https://s.shopee.vn/an_redir?origin_link=";
+    let currentResults = [];
+
+    function generateLinks() {
+        const inputs = document.querySelectorAll('.link-input');
+        const resultsArea = document.getElementById('resultsArea');
+        const copyAllBtn = document.getElementById('copyAllBtn');
+        
+        resultsArea.innerHTML = "";
+        currentResults = [];
+        let hasLinks = false;
+
+        inputs.forEach((input, index) => {
+            const url = input.value.trim();
+            if (url) {
+                hasLinks = true;
+                const encodedUrl = encodeURIComponent(url);
+                const finalUrl = `${BASE_URL}${encodedUrl}&affiliate_id=${MY_AFFILIATE_ID}`;
+                
+                currentResults.push(finalUrl);
+                addResultRow(finalUrl, index + 1);
+            }
+        });
+
+        if (hasLinks) {
+            resultsArea.style.display = "block";
+            copyAllBtn.style.display = "block";
+        } else {
+            alert("Bạn hãy nhập ít nhất 1 link!");
+        }
+    }
+
+    function addResultRow(link, num) {
+        const resultsArea = document.getElementById('resultsArea');
+        const row = document.createElement('div');
+        row.className = 'result-item';
+        row.innerHTML = `
+            <div class="result-header">
+                <span class="result-label">LINK ${num}</span>
+                <button class="copy-small" onclick="copySingle('${link}')">Sao chép</button>
+            </div>
+            <span class="result-text">${link}</span>
+        `;
+        resultsArea.appendChild(row);
+    }
+
+    function copySingle(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Link đã sao chép :D");
+        });
+    }
+
+    function copyAll() {
+        const allText = currentResults.join('\n');
+        navigator.clipboard.writeText(allText).then(() => {
+            alert("Tất cả link đã sao chép :D");
+        });
+    }
+
+    function clearAll() {
+        document.querySelectorAll('.link-input').forEach(input => input.value = "");
+        document.getElementById('resultsArea').style.display = "none";
+        document.getElementById('copyAllBtn').style.display = "none";
+        currentResults = [];
+    }
+</script>
+
+</body>
+</html>

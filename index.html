@@ -5,192 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Công cụ chuyển đổi</title>
     <style>
-        /* --- SNORLAX THEME PALETTE --- */
         :root {
-            --accent: #5c8b9f; 
-            --bg-cream: #f8f5e6;
-            --text-dark: #4a3f35;
-            --text-light: #7a6f65;
-            --notice-bg: #fffbf0;
-            --warning-yellow: #fff9c4;
-            --error-red: #f8d7da;
-            --error-text: #721c24;
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --accent: #5c8b9f; --bg-cream: #f8f5e6; --text-dark: #4a3f35;
+            --text-light: #7a6f65; --notice-bg: #fffbf0; --warning-yellow: #fff9c4;
+            --error-red: #f8d7da; --error-text: #721c24; --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        body { 
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg-cream);
-            color: var(--text-dark);
-            margin: 0; padding: 60px 15px;
-            min-height: 100vh;
-        }
-
-        .container { 
-            background: #ffffff; padding: 0 0 30px 0;
-            border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            width: 100%; max-width: 500px; margin: auto;
-            overflow: hidden; border: 2px solid #e8e4d5;
-        }
-
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-cream); color: var(--text-dark); margin: 0; padding: 60px 15px; }
+        .container { background: #fff; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 500px; margin: auto; overflow: hidden; border: 2px solid #e8e4d5; padding-bottom: 30px; }
         .banner { width: 100%; height: 140px; background: var(--accent); }
-        .logo-wrapper {
-            width: 80px; height: 80px; background: white; border-radius: 50%;
-            margin: -40px auto 15px auto; padding: 5px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 2px solid var(--bg-cream);
-        }
+        .logo-wrapper { width: 80px; height: 80px; background: white; border-radius: 50%; margin: -40px auto 15px auto; padding: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 2px solid var(--bg-cream); }
         .logo-wrapper img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-
         .content { padding: 0 25px; }
         h2 { text-align: center; margin: 0; font-size: 20px; font-weight: 800; }
         .subtitle { text-align: center; color: var(--text-light); font-size: 13px; margin: 8px 0 20px 0; }
-
-        /* INPUT ROWS */
         .input-row-wrapper { margin-bottom: 12px; }
         .input-row { display: flex; align-items: center; gap: 10px; }
         .input-num { font-weight: 800; color: var(--accent); width: 20px; text-align: right; }
-        
-        input { 
-            flex: 1; padding: 14px; border: 2px solid #e8e4d5; 
-            border-radius: 12px; transition: var(--transition); background: var(--bg-cream);
-            color: var(--text-dark);
-        }
+        input { flex: 1; padding: 14px; border: 2px solid #e8e4d5; border-radius: 12px; transition: var(--transition); background: var(--bg-cream); color: var(--text-dark); }
         input:focus { border-color: var(--accent); outline: none; background: #fff; box-shadow: 0 0 0 4px rgba(92, 139, 159, 0.1); }
-
         input.warning-link { background-color: var(--warning-yellow); border-color: #ffeeba; }
         input.error-link { background-color: var(--error-red); border-color: #f5c6cb; }
-
-        /* STATUS BARS */
-        .status-bar { 
-            display: none; font-size: 11px; padding: 10px; border-radius: 10px; 
-            margin-top: 6px; margin-left: 30px; border: 1px solid transparent;
-            align-items: center; justify-content: space-between;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-        
+        .status-bar { display: none; font-size: 11px; padding: 10px; border-radius: 10px; margin-top: 6px; margin-left: 30px; border: 1px solid transparent; align-items: center; justify-content: space-between; }
         .warning-bar { background: #fff3cd; color: #856404; border-color: #ffeeba; }
         .error-bar { background: #f8d7da; color: var(--error-text); border-color: #f5c6cb; }
-
-        /* MULTI-INPUT SECTION */
         .subid-section { margin: 20px 0; padding: 15px; background: #f0f4f5; border-radius: 15px; border: 1px solid #e0e8ea; }
         .subid-label { font-size: 11px; font-weight: 800; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; display: block; }
         .flex-row { display: flex; gap: 10px; }
-
-        /* BUTTONS */
-        button, .fan-btn, .btn-purchase {
-            transition: var(--transition); cursor: pointer; border: none;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        button:active, .fan-btn:active, .btn-purchase:active { transform: scale(0.96); }
-
-        .btn-paste { background: #e8e4d5; color: var(--text-dark); padding: 12px; border-radius: 12px; font-weight: bold; font-size: 13px; }
-        .auto-fix-btn { background: var(--accent); color: white; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 10px; }
-
         .btn-group-main { display: flex; gap: 10px; margin-top: 10px; }
-        .primary-btn { flex: 2; padding: 16px; background: var(--accent); color: white; border-radius: 12px; font-weight: bold; font-size: 16px; }
-        .primary-btn:hover { background: #4a7a96; transform: translateY(-1px); }
-        .clear-btn { flex: 1; padding: 16px; background: #e8e4d5; color: var(--text-dark); border-radius: 12px; font-weight: bold; }
-
-        .result-card { background: var(--bg-cream); padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 2px solid #e8e4d5; }
-        .btn-row { display: flex; gap: 8px; margin-top: 10px; }
-        .btn-copy { background: #e8e4d5; color: var(--text-dark); flex: 1; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; }
-        .btn-purchase { background: var(--accent); color: white; flex: 1; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; text-decoration: none; }
-
-        /* FOOTER & ADMIN */
-        .history-toggle { width: 100%; padding: 10px; background: transparent; border: 1px dashed #ccc; border-radius: 10px; margin-top: 25px; font-size: 11px; color: var(--text-light); }
-        .history-content { display: none; margin-top: 10px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .admin-box { background: #eee; padding: 10px; border-radius: 12px; margin-bottom: 10px; border: 1px solid #ddd; }
-        .admin-row { display: flex; gap: 5px; margin-top: 5px; }
-        .admin-row input { padding: 8px; font-size: 12px; }
-        .btn-unlock { background: var(--text-dark); color: white; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; }
-        .export-btn { background: #28a745; color: white; padding: 12px; border-radius: 12px; font-weight: bold; font-size: 14px; width: 100%; margin-bottom: 15px; display: none; }
-
-        .fan-btn { display: flex; text-align: center; margin: 20px 0; padding: 14px; background: var(--text-dark); color: white; border-radius: 12px; text-decoration: none; font-weight: bold; }
-        .notice-board { background: var(--notice-bg); border: 2px solid #e8e4d5; border-radius: 20px; padding: 20px; position: relative; text-align: center; }
+        .primary-btn { flex: 2; padding: 16px; background: var(--accent); color: white; border-radius: 12px; font-weight: bold; font-size: 16px; border:none; cursor:pointer;}
+        .clear-btn { flex: 1; padding: 16px; background: #e8e4d5; border-radius: 12px; font-weight: bold; border:none; cursor:pointer;}
+        .result-card { background: var(--bg-cream); padding: 15px; border-radius: 15px; margin-top: 15px; border: 2px solid #e8e4d5; }
+        .admin-box { background: #eee; padding: 10px; border-radius: 12px; margin-top: 20px; border: 1px solid #ddd; }
+        .admin-btn-group { display: none; flex-direction: column; gap: 10px; margin-top: 10px; }
+        .sheet-btn { background: #1a73e8; color: white; padding: 12px; border-radius: 10px; text-decoration: none; text-align: center; font-weight: bold; font-size: 14px; }
+        .export-btn { background: #28a745; color: white; padding: 12px; border-radius: 10px; font-weight: bold; border:none; cursor:pointer;}
+        .notice-board { background: var(--notice-bg); border: 2px solid #e8e4d5; border-radius: 20px; padding: 20px; position: relative; text-align: center; margin-top: 25px; }
         .notice-board::before { content: '📌'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-size: 20px; }
+
+        /* REDESIGNED MUA NGAY BUTTON */
+        .btn-purchase {
+            background: linear-gradient(135deg, #5c8b9f 0%, #4a7a96 100%);
+            color: white;
+            flex: 2; /* Larger than Copy button */
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 800;
+            text-decoration: none;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(92, 139, 159, 0.3);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-purchase:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(92, 139, 159, 0.4);
+            filter: brightness(1.1);
+        }
+        .btn-purchase:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="banner"></div>
-    <div class="logo-wrapper"><img src="https://i.pinimg.com/736x/06/3c/fa/063cfa3125f4cb7a29fda76242998113.jpg" alt="Logo"></div>
-
+    <div class="logo-wrapper"><img src="https://i.pinimg.com/736x/06/3c/fa/063cfa3125f4cb7a29fda76242998113.jpg"></div>
     <div class="content">
         <h2>🛍️ Chuyển đổi link Shopee - nhận mã giảm giá</h2>
         <p class="subtitle">Mã tự động có trong mục áp voucher khi mua qua link chuyển đổi ^0^</p>
-
         <div id="inputs">
-            <div class="input-row-wrapper">
-                <div class="input-row"><span class="input-num">1</span><input type="text" class="link-input" placeholder="https://shopee.vn/…" oninput="validateLink(this)"><button class="btn-paste" onclick="pasteFromClipboard(this)">Dán 📋</button></div>
-                <div class="status-bar warning-bar"><span>⚠️ Link sai định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div>
-                <div class="status-bar error-bar"><span>❌ Lỗi: Link không phải Shopee.</span></div>
-            </div>
-            <div class="input-row-wrapper">
-                <div class="input-row"><span class="input-num">2</span><input type="text" class="link-input" placeholder="https://shopee.vn/…" oninput="validateLink(this)"><button class="btn-paste" onclick="pasteFromClipboard(this)">Dán 📋</button></div>
-                <div class="status-bar warning-bar"><span>⚠️ Link sai định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div>
-                <div class="status-bar error-bar"><span>❌ Lỗi: Link không phải Shopee.</span></div>
-            </div>
-            <div class="input-row-wrapper">
-                <div class="input-row"><span class="input-num">3</span><input type="text" class="link-input" placeholder="https://shopee.vn/…" oninput="validateLink(this)"><button class="btn-paste" onclick="pasteFromClipboard(this)">Dán 📋</button></div>
-                <div class="status-bar warning-bar"><span>⚠️ Link sai định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div>
-                <div class="status-bar error-bar"><span>❌ Lỗi: Link không phải Shopee.</span></div>
-            </div>
-            <div class="input-row-wrapper">
-                <div class="input-row"><span class="input-num">4</span><input type="text" class="link-input" placeholder="https://shopee.vn/…" oninput="validateLink(this)"><button class="btn-paste" onclick="pasteFromClipboard(this)">Dán 📋</button></div>
-                <div class="status-bar warning-bar"><span>⚠️ Link sai định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div>
-                <div class="status-bar error-bar"><span>❌ Lỗi: Link không phải Shopee.</span></div>
-            </div>
-            <div class="input-row-wrapper">
-                <div class="input-row"><span class="input-num">5</span><input type="text" class="link-input" placeholder="https://shopee.vn/…" oninput="validateLink(this)"><button class="btn-paste" onclick="pasteFromClipboard(this)">Dán 📋</button></div>
-                <div class="status-bar warning-bar"><span>⚠️ Link sai định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div>
-                <div class="status-bar error-bar"><span>❌ Lỗi: Link không phải Shopee.</span></div>
-            </div>
+            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">1</span><input type="text" class="link-input" placeholder="https://shopee.vn/…" oninput="validateLink(this)"><button style="padding:10px; border-radius:10px; border:none;" onclick="pasteFromClipboard(this)">Dán 📋</button></div><div class="status-bar warning-bar"><span>⚠️ Link sai định dạng!</span><button style="background:var(--accent); color:white; border:none; padding:5px; border-radius:5px;" onclick="autoFix(this)">Fix ✨</button></div><div class="status-bar error-bar"><span>❌ Không phải Shopee</span></div></div>
+            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">2</span><input type="text" class="link-input" placeholder="https://shopee.vn/…" oninput="validateLink(this)"><button style="padding:10px; border-radius:10px; border:none;" onclick="pasteFromClipboard(this)">Dán 📋</button></div><div class="status-bar warning-bar"><span>⚠️ Link sai định dạng!</span><button style="background:var(--accent); color:white; border:none; padding:5px; border-radius:5px;" onclick="autoFix(this)">Fix ✨</button></div><div class="status-bar error-bar"><span>❌ Không phải Shopee</span></div></div>
+            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">3</span><input type="text" class="link-input" placeholder="https://shopee.vn/…" oninput="validateLink(this)"><button style="padding:10px; border-radius:10px; border:none;" onclick="pasteFromClipboard(this)">Dán 📋</button></div><div class="status-bar warning-bar"><span>⚠️ Link sai định dạng!</span><button style="background:var(--accent); color:white; border:none; padding:5px; border-radius:5px;" onclick="autoFix(this)">Fix ✨</button></div><div class="status-bar error-bar"><span>❌ Không phải Shopee</span></div></div>
+            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">4</span><input type="text" class="link-input" placeholder="https://shopee.vn/…" oninput="validateLink(this)"><button style="padding:10px; border-radius:10px; border:none;" onclick="pasteFromClipboard(this)">Dán 📋</button></div><div class="status-bar warning-bar"><span>⚠️ Link sai định dạng!</span><button style="background:var(--accent); color:white; border:none; padding:5px; border-radius:5px;" onclick="autoFix(this)">Fix ✨</button></div><div class="status-bar error-bar"><span>❌ Không phải Shopee</span></div></div>
+            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">5</span><input type="text" class="link-input" placeholder="https://shopee.vn/…" oninput="validateLink(this)"><button style="padding:10px; border-radius:10px; border:none;" onclick="pasteFromClipboard(this)">Dán 📋</button></div><div class="status-bar warning-bar"><span>⚠️ Link sai định dạng!</span><button style="background:var(--accent); color:white; border:none; padding:5px; border-radius:5px;" onclick="autoFix(this)">Fix ✨</button></div><div class="status-bar error-bar"><span>❌ Không phải Shopee</span></div></div>
         </div>
-
         <div class="subid-section">
-            <label class="subid-label">🎁 Tham gia Minigame (Không bắt buộc)</label>
+            <label class="subid-label">🎁 Tham gia Minigame (không bắt buộc)</label>
             <div class="flex-row">
                 <input type="text" id="subIdInput" placeholder="4 số cuối SĐT" oninput="validateSubId(this)">
                 <input type="text" id="igInput" placeholder="Instagram username" style="background: white;">
             </div>
         </div>
-
         <div class="btn-group-main">
             <button class="clear-btn" onclick="clearAll()">Xóa hết</button>
             <button id="mainBtn" class="primary-btn" onclick="generate()">Chuyển đổi</button>
         </div>
-
-        <div id="results-section" style="display:none; margin-top:20px;">
-            <div id="results"></div>
-        </div>
-
-        <button class="history-toggle" onclick="toggleHistory()">📜 Xem lịch sử chuyển đổi</button>
-        <div id="history-section" class="history-content">
-            <div class="admin-box" id="adminBox">
-                <span style="font-size: 10px; font-weight: bold; color: var(--text-light);">🔒 XÁC MINH ADMIN</span>
-                <div class="admin-row">
-                    <input type="password" id="adminPass" placeholder="Nhập mã pin">
-                    <button class="btn-unlock" onclick="unlockAdmin()">Mở khóa</button>
-                </div>
+        <div id="results-section" style="display:none; margin-top:20px;"></div>
+        <div class="admin-box">
+            <div id="adminLock">
+                <span style="font-size: 10px; font-weight: bold;">🔒 ADMIN PIN</span>
+                <div style="display:flex; gap:5px; margin-top:5px;"><input type="password" id="adminPass" style="padding:8px;"><button onclick="unlockAdmin()" style="padding:8px; border-radius:8px; border:none; background:var(--text-dark); color:white;">Mở</button></div>
             </div>
-            <button id="exportBtn" class="export-btn" onclick="exportToCSV()">📥 Xuất danh sách tham gia (Excel)</button>
-            <div id="history-list"></div>
+            <div class="admin-btn-group" id="adminButtons">
+                <a href="https://docs.google.com/spreadsheets/d/15ixJKmdX7Msgzi8KRdJGpy0Dj7sR0481N8lTNUdEl3A/edit#gid=0" target="_blank" class="sheet-btn">📊 Mở Google Sheet </a>
+                <button class="export-btn" onclick="exportToCSV()">📥 Xuất CSV (Backup)</button>
+            </div>
         </div>
-        
-        <a href="https://www.instagram.com/channel/AbZaUamGAW15JNEI/" target="_blank" class="fan-btn">💬 Tham gia nhóm báo sale, deal</a>
-
         <div class="notice-board">
-            <div style="font-weight:800; font-size:14px;">📋 Bảng tin voucher</div>
-            <div style="font-size:11px; color:var(--accent); margin:5px 0 10px 0;">⏰ Áp dụng: 1.2.2026 - 8.2.2026</div>
-            <div style="font-size:13px; line-height:1.5; color:var(--text-light); text-align:middle;">
-                👉🏻 Giảm 25%, tối đa 250K, cho đơn từ 150K<br>
-                👉🏻 Giảm 22%, tối đa 200K, cho đơn từ 150K<br>
-                👉🏻 Giảm 20%, tối đa 100K, cho đơn từ 100K<br>
-                👉🏻 Giảm 18%, tối đa 100K, cho đơn từ 50K<br><br>
-                ❗️ Duy nhất hôm nay 02.02: Giảm 30% max 300k đơn 50k
-            </div>
+            <div style="font-weight:800;">📋 Bảng tin voucher</div>
+            <div style="font-size:13px; margin-top:10px; text-align:middle;">
+<br> 👉🏻 Giảm 25%, tối đa 250K, cho đơn từ 150K
+<br> 👉🏻 Giảm 22%, tối đa 200K, cho đơn từ 150K
+<br> 👉🏻 Giảm 20%, tối đa 100K, cho đơn từ 100K
+<br> 👉🏻 Giảm 18%, tối đa 100K, cho đơn từ 50K
+<br><br> ❗️ Duy nhất 2.2: Giảm 30% max 300k đơn 50k</div>
         </div>
     </div>
 </div>
@@ -199,140 +124,105 @@
     const AFF_ID = "17352430059";
     const BASE = "https://s.shopee.vn/an_redir?origin_link=";
     const ADMIN_PIN = "290703";
-
-    window.onload = function() { loadHistory(); };
+    const BRIDGE_URL = "https://script.google.com/macros/s/AKfycbwAq5mQMNuoCnC3-xbMSxJOOQ2J5EjHL9oi6Jn_JYlPOyLF8yDolZYLHG43CtdZVd30/exec";
 
     function unlockAdmin() {
-        const pin = document.getElementById('adminPass').value;
-        if (pin === ADMIN_PIN) {
-            document.getElementById('exportBtn').style.display = "block";
-            document.getElementById('adminBox').style.display = "none";
-            alert("Đã mở khóa quyền quản trị!");
-        } else { alert("Sai mã pin rồi!"); }
+        if (document.getElementById('adminPass').value === ADMIN_PIN) {
+            document.getElementById('adminButtons').style.display = "flex";
+            document.getElementById('adminLock').style.display = "none";
+        } else { alert("Sai mã!"); }
     }
 
-    function validateSubId(input) {
-        input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
-    }
+    function validateSubId(input) { input.value = input.value.replace(/[^0-9]/g, '').slice(0, 4); }
 
     function validateLink(input) {
         const val = input.value.trim().toLowerCase();
         const wrapper = input.closest('.input-row-wrapper');
-        const warnBar = wrapper.querySelector('.warning-bar');
-        const errorBar = wrapper.querySelector('.error-bar');
+        const warn = wrapper.querySelector('.warning-bar'), err = wrapper.querySelector('.error-bar');
         input.classList.remove('warning-link', 'error-link');
-        if(warnBar) warnBar.style.display = "none";
-        if(errorBar) errorBar.style.display = "none";
+        warn.style.display = err.style.display = "none";
         if (!val) return;
-        const isShopee = val.includes('shopee.vn') || val.includes('shp.ee') || val.includes('shope.ee');
-        const needsFix = (val.includes('shp.ee') || val.includes('shope.ee')) && !val.includes('shopee.vn');
-        if (!isShopee) { input.classList.add('error-link'); if(errorBar) errorBar.style.display = "flex"; } 
-        else if (needsFix) { input.classList.add('warning-link'); if(warnBar) warnBar.style.display = "flex"; }
+        if (!val.includes('shopee.vn') && !val.includes('shp.ee') && !val.includes('shope.ee')) { input.classList.add('error-link'); err.style.display = "flex"; }
+        else if ((val.includes('shp.ee') || val.includes('shope.ee')) && !val.includes('shopee.vn')) { input.classList.add('warning-link'); warn.style.display = "flex"; }
+    }
+
+    async function generate() {
+        const inputs = document.querySelectorAll('.link-input');
+        const sub = document.getElementById('subIdInput').value.trim();
+        const ig = document.getElementById('igInput').value.trim();
+        const resSection = document.getElementById('results-section');
+        const mainBtn = document.getElementById('mainBtn');
+
+        if (ig && sub) {
+            fetch(BRIDGE_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ instagram: ig, subid: sub }) });
+            let logs = JSON.parse(localStorage.getItem('minigame_logs') || "[]");
+            logs.unshift({ ig, phone: sub, time: new Date().toLocaleString('vi-VN') });
+            localStorage.setItem('minigame_logs', JSON.stringify(logs.slice(0, 1000)));
+        }
+
+        mainBtn.innerText = "Chờ tí..."; mainBtn.disabled = true;
+        resSection.innerHTML = "";
+        let count = 0;
+
+        for (let i = 0; i < inputs.length; i++) {
+            const val = inputs[i].value.trim();
+            if (val) {
+                let long = BASE + encodeURIComponent(val) + "&affiliate_id=" + AFF_ID + (sub ? "&sub_id="+sub : "");
+                const res = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(long)}`);
+                const final = res.ok ? await res.text() : long;
+                
+                resSection.innerHTML += `<div class="result-card">
+                    <div style="font-weight:800; font-size:11px; color:var(--accent);">LINK #${i+1}</div>
+                    <div style="font-size:11px; word-break:break-all; margin:8px 0;">${final}</div>
+                    <div style="display:flex; gap:10px;">
+                        <a href="${final}" target="_blank" class="btn-purchase">MUA NGAY 🛒</a>
+                        <button class="clear-btn" style="padding:10px; font-size:12px;" onclick="navigator.clipboard.writeText('${final}').then(()=>alert('Đã copy!'))">Sao chép</button>
+                    </div>
+                </div>`;
+                count++;
+            }
+        }
+        if(count > 0) resSection.style.display = "block";
+        mainBtn.innerText = "Chuyển đổi"; mainBtn.disabled = false;
+    }
+
+    function clearAll() { 
+        document.querySelectorAll('input').forEach(i => i.value = ""); 
+        document.getElementById('results-section').style.display = "none";
+        document.querySelectorAll('.status-bar').forEach(s => s.style.display = "none");
     }
 
     async function autoFix(btn) {
-        const wrapper = btn.closest('.input-row-wrapper');
-        const input = wrapper.querySelector('.link-input');
-        const originalUrl = input.value.trim();
-        btn.innerText = "Đang fix..."; btn.disabled = true;
+        const input = btn.closest('.input-row-wrapper').querySelector('.link-input');
+        const url = input.value.trim();
+        btn.innerText = "...";
         try {
-            const response = await fetch(`https://unshorten.me/s/${originalUrl}`);
-            const longUrl = await response.text();
-            if (longUrl && longUrl.includes('shopee.vn')) { input.value = longUrl.trim(); validateLink(input); } 
-            else { window.open(originalUrl, '_blank'); }
-        } catch (e) { window.open(originalUrl, '_blank'); } 
-        finally { btn.innerText = "Fix link ✨"; btn.disabled = false; }
+            const res = await fetch(`https://unshorten.me/s/${url}`);
+            const long = await res.text();
+            input.value = long.includes('shopee.vn') ? long.trim() : url;
+            validateLink(input);
+        } catch (e) { window.open(url, '_blank'); } 
+        finally { btn.innerText = "Fix ✨"; }
     }
 
     async function pasteFromClipboard(btn) {
         try {
             const text = await navigator.clipboard.readText();
             const input = btn.closest('.input-row').querySelector('.link-input');
-            input.value = text;
-            validateLink(input);
-        } catch (err) { alert("Cấp quyền Clipboard để dán!"); }
-    }
-
-    async function getShortLink(longUrl) {
-        try {
-            const response = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`);
-            return response.ok ? await response.text() : longUrl;
-        } catch (e) { return longUrl; }
-    }
-
-    async function generate() {
-        const inputs = document.querySelectorAll('.link-input');
-        const subIdValue = document.getElementById('subIdInput').value.trim();
-        const igValue = document.getElementById('igInput').value.trim();
-        const display = document.getElementById('results');
-        const mainBtn = document.getElementById('mainBtn');
-        
-        if (igValue && subIdValue) {
-            let logs = JSON.parse(localStorage.getItem('minigame_logs') || "[]");
-            logs.unshift({ ig: igValue, phone: subIdValue, time: new Date().toLocaleString('vi-VN') });
-            localStorage.setItem('minigame_logs', JSON.stringify(logs.slice(0, 1000)));
+            input.value = text; validateLink(input);
+        } catch (err) {
+            alert("Vui lòng cho phép quyền truy cập Clipboard!");
         }
-
-        mainBtn.innerText = "Đang xử lý..."; mainBtn.disabled = true;
-        display.innerHTML = "";
-        let history = JSON.parse(localStorage.getItem('sh_hist') || "[]");
-
-        for (let i = 0; i < inputs.length; i++) {
-            const val = inputs[i].value.trim();
-            if (val) {
-                let longAff = BASE + encodeURIComponent(val) + "&affiliate_id=" + AFF_ID;
-                if (subIdValue) longAff += "&sub_id=" + subIdValue;
-                const final = await getShortLink(longAff);
-                const card = document.createElement('div');
-                card.className = 'result-card';
-                card.innerHTML = `<div style="font-weight:800; font-size:11px; color:var(--accent);">LINK #${i+1}</div>
-                    <div style="font-size:11px; word-break:break-all; margin:8px 0;">${final}</div>
-                    <div class="btn-row"><a href="${final}" target="_blank" class="btn-purchase">Mua ngay</a><button class="btn-copy" onclick="copySingle('${final}')">Sao chép</button></div>`;
-                display.appendChild(card);
-                history.unshift({ url: final, time: new Date().toLocaleTimeString('vi-VN') });
-            }
-        }
-        document.getElementById('results-section').style.display = "block";
-        localStorage.setItem('sh_hist', JSON.stringify(history.slice(0, 15)));
-        mainBtn.innerText = "Chuyển đổi"; mainBtn.disabled = false;
-        loadHistory();
     }
 
     function exportToCSV() {
         const logs = JSON.parse(localStorage.getItem('minigame_logs') || "[]");
-        if (!logs.length) { alert("Chưa có ai tham gia!"); return; }
-        let csv = "\uFEFFInstagram,Phone (SubID),Thoi gian\n";
-        logs.forEach(row => { csv += `${row.ig},${row.phone},${row.time}\n`; });
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.setAttribute("download", `Minigame_IG_${new Date().toLocaleDateString()}.csv`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    function copySingle(txt) { navigator.clipboard.writeText(txt).then(() => alert("Đã sao chép!")); }
-    function clearAll() { 
-        document.querySelectorAll('.link-input').forEach(i => i.value = ""); 
-        document.querySelectorAll('.status-bar').forEach(s => s.style.display = "none");
-        document.querySelectorAll('.link-input').forEach(i => i.classList.remove('warning-link', 'error-link'));
-        document.getElementById('subIdInput').value = ""; 
-        document.getElementById('igInput').value = "";
-        document.getElementById('results-section').style.display="none"; 
-    }
-    function toggleHistory() { const s = document.getElementById('history-section'); s.style.display = s.style.display === "block" ? "none" : "block"; }
-    function loadHistory() {
-        const list = document.getElementById('history-list');
-        const hist = JSON.parse(localStorage.getItem('sh_hist') || "[]");
-        list.innerHTML = hist.length ? "" : "<p style='font-size:11px; text-align:center;'>Trống</p>";
-        hist.forEach(h => {
-            const d = document.createElement('div'); d.className = 'result-card'; d.style.opacity = "0.75";
-            d.innerHTML = `<div style="font-size:10px; font-weight:bold;">${h.time}</div><div style="font-size:10px; word-break:break-all;">${h.url}</div>`;
-            list.appendChild(d);
-        });
+        if (!logs.length) return alert("Trống!");
+        let csv = "\uFEFFInstagram,Phone,Time\n";
+        logs.forEach(r => csv += `${r.ig},${r.phone},${r.time}\n`);
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `Data.csv`; a.click();
     }
 </script>
-
 </body>
 </html>

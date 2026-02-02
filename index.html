@@ -81,6 +81,17 @@
         }
         button:active, .fan-btn:active, .btn-purchase:active { transform: scale(0.96); }
 
+        /* PASTE BUTTON STYLING */
+        .btn-paste {
+            background: #e8e4d5;
+            color: var(--text-dark);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .btn-paste:hover { background: #d8d4c5; }
+
         .auto-fix-btn { 
             background: var(--accent); color: white;
             padding: 6px 12px; border-radius: 8px; 
@@ -127,11 +138,11 @@
         <p class="subtitle">Mã tự động có trong mục áp voucher khi mua qua link chuyển đổi ^0^</p>
 
         <div id="inputs">
-            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">1</span><input type="text" class="link-input" placeholder="https://shopee.vn/..." oninput="validateLink(this)"></div><div class="status-bar warning-bar"><span>⚠️ Link không đúng định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div><div class="status-bar error-bar"><span>❌ Lỗi: Vui lòng dùng link Shopee chính xác.</span></div></div>
-            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">2</span><input type="text" class="link-input" placeholder="https://shopee.vn/..." oninput="validateLink(this)"></div><div class="status-bar warning-bar"><span>⚠️ Link không đúng định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div><div class="status-bar error-bar"><span>❌ Lỗi: Vui lòng dùng link Shopee.</span></div></div>
-            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">3</span><input type="text" class="link-input" placeholder="https://shopee.vn/..." oninput="validateLink(this)"></div><div class="status-bar warning-bar"><span>⚠️ Link không đúng định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div><div class="status-bar error-bar"><span>❌ Lỗi: Vui lòng dùng link Shopee.</span></div></div>
-            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">4</span><input type="text" class="link-input" placeholder="https://shopee.vn/..." oninput="validateLink(this)"></div><div class="status-bar warning-bar"><span>⚠️ Link không đúng định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div><div class="status-bar error-bar"><span>❌ Lỗi: Vui lòng dùng link Shopee.</span></div></div>
-            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">5</span><input type="text" class="link-input" placeholder="https://shopee.vn/..." oninput="validateLink(this)"></div><div class="status-bar warning-bar"><span>⚠️ Link không đúng định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div><div class="status-bar error-bar"><span>❌ Lỗi: Vui lòng dùng link Shopee.</span></div></div>
+            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">1</span><input type="text" class="link-input" placeholder="https://shopee.vn/..." oninput="validateLink(this)"><button class="btn-paste" onclick="pasteFromClipboard(this)">Dán 📋</button></div><div class="status-bar warning-bar"><span>⚠️ Link không đúng định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div><div class="status-bar error-bar"><span>❌ Lỗi: Vui lòng dùng link Shopee chính xác.</span></div></div>
+            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">2</span><input type="text" class="link-input" placeholder="https://shopee.vn/..." oninput="validateLink(this)"><button class="btn-paste" onclick="pasteFromClipboard(this)">Dán 📋</button></div><div class="status-bar warning-bar"><span>⚠️ Link không đúng định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div><div class="status-bar error-bar"><span>❌ Lỗi: Vui lòng dùng link Shopee.</span></div></div>
+            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">3</span><input type="text" class="link-input" placeholder="https://shopee.vn/..." oninput="validateLink(this)"><button class="btn-paste" onclick="pasteFromClipboard(this)">Dán 📋</button></div><div class="status-bar warning-bar"><span>⚠️ Link không đúng định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div><div class="status-bar error-bar"><span>❌ Lỗi: Vui lòng dùng link Shopee.</span></div></div>
+            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">4</span><input type="text" class="link-input" placeholder="https://shopee.vn/..." oninput="validateLink(this)"><button class="btn-paste" onclick="pasteFromClipboard(this)">Dán 📋</button></div><div class="status-bar warning-bar"><span>⚠️ Link không đúng định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div><div class="status-bar error-bar"><span>❌ Lỗi: Vui lòng dùng link Shopee.</span></div></div>
+            <div class="input-row-wrapper"><div class="input-row"><span class="input-num">5</span><input type="text" class="link-input" placeholder="https://shopee.vn/..." oninput="validateLink(this)"><button class="btn-paste" onclick="pasteFromClipboard(this)">Dán 📋</button></div><div class="status-bar warning-bar"><span>⚠️ Link không đúng định dạng!</span><button class="auto-fix-btn" onclick="autoFix(this)">Fix link ✨</button></div><div class="status-bar error-bar"><span>❌ Lỗi: Vui lòng dùng link Shopee.</span></div></div>
         </div>
 
         <div class="btn-group-main">
@@ -166,6 +177,17 @@
     const BASE = "https://s.shopee.vn/an_redir?origin_link=";
     let currentBatch = [];
 
+    async function pasteFromClipboard(btn) {
+        try {
+            const text = await navigator.clipboard.readText();
+            const input = btn.closest('.input-row').querySelector('.link-input');
+            input.value = text;
+            validateLink(input); // Trigger Shopee validation immediately
+        } catch (err) {
+            alert("Vui lòng cho phép quyền truy cập Clipboard để sử dụng tính năng này!");
+        }
+    }
+
     function validateLink(input) {
         const val = input.value.trim().toLowerCase();
         const wrapper = input.closest('.input-row-wrapper');
@@ -196,7 +218,6 @@
 
     async function getShortLink(longUrl) {
         try {
-            // Using TinyURL API - works best for browser fetch
             const response = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`);
             if (response.ok) return await response.text();
             return longUrl;
@@ -221,7 +242,7 @@
             const val = inputs[i].value.trim();
             if (val) {
                 const longAff = BASE + encodeURIComponent(val) + "&affiliate_id=" + AFF_ID;
-                const final = await getShortLink(longAff); // THIS SHORTENS THE LINK
+                const final = await getShortLink(longAff);
                 
                 currentBatch.push(final);
                 const card = document.createElement('div');

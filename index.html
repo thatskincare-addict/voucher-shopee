@@ -232,9 +232,7 @@
         for (let i = 0; i < inputs.length; i++) {
             const val = inputs[i].value.trim();
             if (val) {
-                let long = BASE + encodeURIComponent(val) + "&affiliate_id=" + AFF_ID + (sub ? "&sub_id="+sub : "");
-                const res = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(long)}`);
-                const final = res.ok ? await res.text() : long;
+                let final = BASE + encodeURIComponent(val) + "&affiliate_id=" + AFF_ID + (sub ? "&sub_id="+sub : "");
                 resSection.innerHTML += `<div class="result-card"><div style="font-weight:800; font-size:11px; color:var(--accent);">LINK #${i+1}</div><div style="font-size:11px; word-break:break-all; margin:8px 0;">${final}</div><div style="display:flex; gap:10px;"><a href="${final}" target="_blank" class="btn-purchase">MUA NGAY 🛒</a><button class="clear-btn" style="padding:10px; font-size:12px;" onclick="navigator.clipboard.writeText('${final}').then(()=>alert('Đã copy!'))">Sao chép</button></div></div>`;
                 count++;
             }
